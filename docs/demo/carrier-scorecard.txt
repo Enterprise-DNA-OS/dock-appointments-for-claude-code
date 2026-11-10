@@ -1,0 +1,5 @@
+  carrier     appointments  observed_arrivals  late_over_15_minutes  no_shows  average_wait_minutes  missing_departures
+  ----------  ------------  -----------------  --------------------  --------  --------------------  ------------------
+  FERN        3             0                  0                     0                               1                 
+  FERN-NORTH  2             1                  1                     1         30.0                  0                 
+  RIDGE       2             1                  0                     0                               0                 

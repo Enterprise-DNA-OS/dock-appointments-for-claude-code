@@ -1,13 +1,25 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Dock Appointments for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Dock operations review",
+    "subtitle": "Recorded appointments only. Local times show the named site timezone.",
     "sections": [
       {
+        "title": "Dock plan",
+        "sql": "select code,site,dock,carrier,local_start,timezone,status from v_appointments where status in ('requested','scheduled','arrived','in_progress') order by starts_at"
+      },
+      {
         "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "sql": "select code,site,reason,detail from v_attention order by reason,code"
+      },
+      {
+        "title": "Carrier review",
+        "sql": "select * from v_carrier_scorecard order by carrier",
+        "note": "Lateness threshold is the demo operating policy of 15 minutes. Missing observations are not on-time arrivals."
+      },
+      {
+        "title": "Evidence gaps",
+        "sql": "select code,rule,finding from v_compliance order by rule,code"
       }
     ]
   }

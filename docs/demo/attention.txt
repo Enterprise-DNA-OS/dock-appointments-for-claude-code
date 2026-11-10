@@ -1,0 +1,7 @@
+  code     site     dock   carrier  owner  reason              detail                                           
+  -------  -------  -----  -------  -----  ------------------  -------------------------------------------------
+  APT-101  HARBOUR  IN-1   FERN     Rae    arrival_overdue     2026-11-11 09:08                                 
+  APT-102  HARBOUR  OUT-1  RIDGE    Jules  detention_review    124 minutes beyond agreed free time; not a charge
+  APT-104  HARBOUR  IN-1   FERN     Rae    dock_conflict       Overlaps APT-103                                 
+  APT-103  HARBOUR  IN-1   RIDGE    Rae    missing_reference   Confirm the shipment reference                   
+  APT-104  HARBOUR  IN-1   FERN     Rae    request_unapproved  2026-11-11 14:38                                 

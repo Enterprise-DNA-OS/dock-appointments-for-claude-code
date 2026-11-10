@@ -1,43 +1,59 @@
-# Dock Appointments for Claude Code: operating instructions
+# Dock Appointments for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+## Operator context
 
-## Who this is for
+This is an operator-managed warehouse appointment and evidence desk. Set the real business name in brand.json. The supplied sites, people and loads are synthetic. Use Node 20 or newer.
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+## Rules
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+Read before writing. Use the CLI for every record. Never invent observed movements or safety evidence. A timestamp needs an explicit UTC offset. Report site timezone alongside a planned time. Never send, publish, control equipment or claim a load is physically safe. Every write records the supplied actor label, which is not a verified identity.
 
-## How to work
+## Routing
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+- /help: npm run docks -- help. See .claude/commands/help.md for arguments.
+- /sites: npm run docks -- sites. See .claude/commands/sites.md for arguments.
+- /docks: npm run docks -- docks. See .claude/commands/docks.md for arguments.
+- /carriers: npm run docks -- carriers. See .claude/commands/carriers.md for arguments.
+- /appointments: npm run docks -- appointments. See .claude/commands/appointments.md for arguments.
+- /dock-plan: npm run docks -- dock-plan. See .claude/commands/dock-plan.md for arguments.
+- /attention: npm run docks -- attention. See .claude/commands/attention.md for arguments.
+- /conflicts: npm run docks -- conflicts. See .claude/commands/conflicts.md for arguments.
+- /carrier-scorecard: npm run docks -- carrier-scorecard. See .claude/commands/carrier-scorecard.md for arguments.
+- /detention: npm run docks -- detention. See .claude/commands/detention.md for arguments.
+- /compliance: npm run docks -- compliance. See .claude/commands/compliance.md for arguments.
+- /imports: npm run docks -- imports. See .claude/commands/imports.md for arguments.
+- /audit: npm run docks -- audit. See .claude/commands/audit.md for arguments.
+- /source-freshness: npm run docks -- source-freshness. See .claude/commands/source-freshness.md for arguments.
+- /weekly-review: npm run docks -- weekly-review. See .claude/commands/weekly-review.md for arguments.
+- /detail: npm run docks -- detail. See .claude/commands/detail.md for arguments.
+- /history: npm run docks -- history. See .claude/commands/history.md for arguments.
+- /add-site: npm run docks -- add-site. See .claude/commands/add-site.md for arguments.
+- /site-plan: npm run docks -- site-plan. See .claude/commands/site-plan.md for arguments.
+- /add-dock: npm run docks -- add-dock. See .claude/commands/add-dock.md for arguments.
+- /add-carrier: npm run docks -- add-carrier. See .claude/commands/add-carrier.md for arguments.
+- /book: npm run docks -- book. See .claude/commands/book.md for arguments.
+- /reschedule: npm run docks -- reschedule. See .claude/commands/reschedule.md for arguments.
+- /arrive: npm run docks -- arrive. See .claude/commands/arrive.md for arguments.
+- /start: npm run docks -- start. See .claude/commands/start.md for arguments.
+- /complete: npm run docks -- complete. See .claude/commands/complete.md for arguments.
+- /cancel: npm run docks -- cancel. See .claude/commands/cancel.md for arguments.
+- /no-show: npm run docks -- no-show. See .claude/commands/no-show.md for arguments.
+- /check-safety: npm run docks -- check-safety. See .claude/commands/check-safety.md for arguments.
+- /log: npm run docks -- log. See .claude/commands/log.md for arguments.
+- /draft-carrier-note: npm run docks -- draft-carrier-note. See .claude/commands/draft-carrier-note.md for arguments.
+- /import: npm run docks -- import. See .claude/commands/import.md for arguments.
+- /export: npm run docks -- export. See .claude/commands/export.md for arguments.
+- /docs: npm run docs. Appointment record and shift handover.
+- /view: npm run view. Weekly review from database views.
+- /customise: add a tested migration, update CLI, tests and reports, then apply to the authorised database.
+- /new-view: add a read-only view, render and inspect it.
 
-## Routing table: one right way for each recurring job
+## Data and operation
 
-| When the operator asks for... | Use this |
-|---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+Read docs/operations.md and docs/replace-opendock.md before real records. Default storage is local PGlite in .data/db. DATABASE_URL selects PostgreSQL. DATA_DIR selects an isolated local database. OUTPUT_DIR redirects generated reports and drafts. Never seed a working database. Use a fresh database for the demo.
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+Imports preserve original CSV and every source row. A changed source requires a later exported-at and cannot replace an appointment after local operating changes. Missing export rows do not delete records. Appointments use one concurrent load per dock. Parallel vendor schedules must be mapped to separate capacity lanes or customised.
 
-## Hard rules
+All business writes go through scripts/docks.mjs. Database owner access can bypass application rules, so restrict it to trusted operators. Back up and restore-test the database. Keep .env files, exports, drafts and reports private.
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
-
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Opendock.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/opendock
+Built and run through Omni by Enterprise DNA. https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=opendock&utm_medium=instructions

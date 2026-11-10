@@ -1,0 +1,7 @@
+  code     rule           finding                                            
+  -------  -------------  ---------------------------------------------------
+  APT-107  DEPARTURE      Completed load has no departure time               
+  APT-105  LOAD-EVIDENCE  Loading record has no recorded safety check        
+  APT-107  LOAD-EVIDENCE  Loading record has no recorded safety check        
+  APT-107  TIMELINE       Arrival, loading or completion timestamp missing   
+  WEST     TRAFFIC-PLAN   Site traffic plan or review date missing or overdue

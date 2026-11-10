@@ -1,11 +1,50 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "appointment-record",
+    "title": "Appointment and movement record",
+    "for_each": "select id,code from appointments order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Appointment",
+        "sql": "select code,site,dock,carrier_name,reference,load_type,local_start,local_end,timezone,status,owner from v_appointments where id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Observed movements",
+        "sql": "select arrived_at,started_at,completed_at,departed_at,free_minutes,excess_minutes from v_appointments where id=$1",
+        "layout": "record",
+        "note": "Timestamps in this section are UTC. Excess time is for contract review, not an invoice or finding of liability."
+      },
+      {
+        "title": "Safety evidence",
+        "sql": "select controller,load_information,restraint,exclusion_zone,driver_brief,actor,checked_at from safety_checks where appointment_id=$1"
+      },
+      {
+        "title": "Decision history",
+        "sql": "select kind,actor,evidence,created_at from events where appointment_id=$1 order by created_at"
+      }
+    ]
+  },
+  {
+    "name": "shift-handover",
+    "title": "Dock shift handover",
+    "for_each": "select id,code from sites order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Site instructions",
+        "sql": "select name,timezone,traffic_plan,review_due from sites where id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Open appointments",
+        "sql": "select a.code,a.dock,a.carrier,a.local_start,a.status,a.owner from v_appointments a join docks d on d.id=a.dock_id where d.site_id=$1 and a.status in ('requested','scheduled','arrived','in_progress') order by a.starts_at"
+      },
+      {
+        "title": "Exception handover",
+        "sql": "select x.code,x.reason,x.detail from v_attention x join appointments a on a.id=x.id join docks d on d.id=a.dock_id where d.site_id=$1 order by x.reason,x.code"
+      }
     ]
   }
 ]

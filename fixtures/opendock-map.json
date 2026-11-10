@@ -1,0 +1,15 @@
+{
+  "external_id": "Appointment ID",
+  "code": "Confirmation",
+  "dock": "Door",
+  "carrier": "Carrier",
+  "reference": "Shipment",
+  "load_type": "Direction",
+  "start": "Start ISO",
+  "end": "End ISO",
+  "status": "Status",
+  "arrived_at": "Arrived ISO",
+  "started_at": "Loading ISO",
+  "completed_at": "Completed ISO",
+  "departed_at": "Departed ISO"
+}
